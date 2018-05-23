@@ -1,6 +1,9 @@
 #!/bin/bash
 
-snipfile=$HOME/.quicksnips/snippets.txt
+workdir=`dirname $0`
+cd $workdir
+workdir=`pwd`
+snipfile=$workdir/snippets.txt
 
 snip=$( sed -r '/^#|^\s*$/d' "$snipfile" | sort | sed -n $1p )
 

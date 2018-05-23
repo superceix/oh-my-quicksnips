@@ -12,6 +12,7 @@ snipdir=${snipfile%/*}
 mkdir -p "${desktopfile%/*}"
 readarray -t -O1 snips < <( sed -r '/^#|^\s*$/d' "$snipfile" | sort )
 printf -v xadshorts "Snippet%s;" ${!snips[@]} {97..99} 
+touch "$snipfile"
 
 tee "$desktopfile" << END
 [Desktop Entry]
