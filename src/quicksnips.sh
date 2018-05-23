@@ -4,17 +4,18 @@ workdir=`dirname $0`
 cd $workdir
 workdir=`pwd`
 snipfile=$workdir/snippets.txt
-desktopfile=$workdir/quicksnips.desktop
 targetdir=$HOME/.local/share/applications/
 targetfile=${targetdir}quicksnips.desktop
 snipdir=${snipfile%/*}
 
-mkdir -p "${desktopfile%/*}"
 readarray -t -O1 snips < <( sed -r '/^#|^\s*$/d' "$snipfile" | sort )
 printf -v xadshorts "Snippet%s;" ${!snips[@]} {97..99} 
 touch "$snipfile"
 
-tee "$desktopfile" << END
+rm ${targetfile}
+sleep 0.05
+
+tee "$targetfile" << END
 [Desktop Entry]
 Version=1.0
 Name=quicksnips
@@ -38,9 +39,9 @@ Name=${snips[$i]}
 Exec=${snipdir}/snip2clip.sh $i
 OnlyShowIn=Unity
 END
-done | tee -a "$desktopfile"
+done | tee -a "$targetfile"
 
-tee -a "$desktopfile" << END
+tee -a "$targetfile" << END
 
 [Desktop Action Snippet97]
 Name=       
@@ -58,8 +59,7 @@ Exec=gnome-terminal -e ${snipdir}/quicksnips.sh
 OnlyShowIn=Unity
 END
 
-rm ${targetfile}
-sleep 0.05
+
 # chmod 777 ${desktopfile}
-mv ${desktopfile} ${targetdir}
+# mv ${desktopfile} ${targetdir}
 # sudo desktop-file-install --dir=${targetdir} ${desktopfile}
