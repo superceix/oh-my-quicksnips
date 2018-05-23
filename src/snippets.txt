@@ -1,6 +1,0 @@
-# add your snippets here 
-# lines commented will not be parsed
-
-## Test for 3d gfx support and current driver
-
-
